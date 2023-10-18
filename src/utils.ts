@@ -1,5 +1,8 @@
-const newCampaignsIsValid = (newCampaigns, campaignIdSet) => {
-  let newCampaignIdSet = new Set()
+
+import { Campaign, CampaignsValidationObject } from "./types"
+
+const newCampaignsIsValid = (newCampaigns:Array<Campaign>, campaignIdSet:Set<number>): CampaignsValidationObject => {
+  let newCampaignIdSet = new Set<number>()
   for(let campaign of newCampaigns){
       const {id, name, startDate, endDate, budget} = campaign
       if(typeof startDate != "string"){
@@ -18,10 +21,6 @@ const newCampaignsIsValid = (newCampaigns, campaignIdSet) => {
         console.table([{error: `Invalid campaign ${name}`, message:"End date must be at least 8 characters long e.g. 1/1/2023"}])
         return {success:false, newCampaignIdSet:null}
       }
-      // if (new Date(startDate) > new Date(endDate)){
-      //   console.table([{error:`Invalid campaign ${name}`, message:"Start date must be come before end date"}])
-      //   return
-      // }
       if(typeof budget != 'number'){
         console.table([{error: `Invalid campaign ${name}`, message:"Budget must be a number"}])
         return {success:false, newCampaignIdSet:null}
@@ -37,10 +36,14 @@ const newCampaignsIsValid = (newCampaigns, campaignIdSet) => {
         return {success:false, newCampaignIdSet:null}
       }
       newCampaignIdSet.add(id)
-      return {success:true, newCampaignIdSet}
     }
+    return {success:true, newCampaignIdSet}
 }
-const formatMoney = (amount, decimalPlaces = 2, currencySymbol = '$') => {
+const formatMoney = (
+      amount:number,
+      decimalPlaces:number = 2, 
+      currencySymbol:string = "$"
+  ) : string => {
     // Ensure the input is a valid number
     if (isNaN(amount)) {
         throw new Error('Invalid input: amount must be a valid number.');
@@ -59,15 +62,22 @@ const formatMoney = (amount, decimalPlaces = 2, currencySymbol = '$') => {
     return result;
 }
 
-const filterCampaigns =  (searchValue, pageStartPointer, pageSize = 10,campaigns,selectedCampaignStartDate, selectedCampaignEndDate) => {
+const filterCampaigns = (
+    searchValue:string, 
+    pageStartPointer:number, 
+    pageSize:number,
+    campaigns:Array<Campaign>,
+    selectedCampaignStartDate:string,
+    selectedCampaignEndDate:string
+): Array<Campaign> => {
     const today = new Date();
     // create date object from string in format month/day/year
-    const createDateObject = (dateString) => {
-      let [month, day, year] = dateString.split('/');
-      return new Date(year, month - 1, day);
+    const createDateObject = (dateString:string) => {
+      let [month, day, year]:Array<string> = dateString.split('/');
+      return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     }
 
-    campaigns.forEach(campaign => {
+    campaigns.forEach((campaign:Campaign) => {
       campaign.isActive = today >= createDateObject(campaign.startDate) && today <= createDateObject(campaign.endDate)
     });
    // Remove campiagns with end date before start
@@ -83,13 +93,13 @@ const filterCampaigns =  (searchValue, pageStartPointer, pageSize = 10,campaigns
     // filter campaigns by selected start and end dates.
     if (selectedCampaignStartDate.length > 0 || selectedCampaignEndDate.length > 0){
       campaigns = campaigns.filter((campaign) => {
-        if( selectedCampaignStartDate.length > 0 && !selectedCampaignEndDate.length > 0){
+        if( selectedCampaignStartDate.length > 0 && !(selectedCampaignEndDate.length > 0)){
           if (!(createDateObject(campaign.startDate) <= new Date(selectedCampaignStartDate)
            && !(createDateObject(campaign.startDate) >= new Date(selectedCampaignStartDate))
           )) return campaign
         }
-        else if( !selectedCampaignStartDate.length > 0 && selectedCampaignEndDate.length > 0){
-          if(!createDateObject(campaign.endDate) > new Date(selectedCampaignEndDate)
+        else if( !(selectedCampaignStartDate.length > 0) && selectedCampaignEndDate.length > 0){
+          if(!(createDateObject(campaign.endDate) > new Date(selectedCampaignEndDate))
           && !(createDateObject(campaign.endDate) <= new Date(selectedCampaignEndDate))
           ) return campaign
         }
@@ -114,7 +124,7 @@ const filterCampaigns =  (searchValue, pageStartPointer, pageSize = 10,campaigns
     return campaigns.slice(pageStartPointer, pageStartPointer+pageSize);
   }
 
-const sampleData = [
+const sampleData:Array<Campaign> = [
       {"id":1,"name":"Sample Active","startDate":"9/19/2020","endDate":"3/9/2024","budget":88377},
       {"id":1,"name":"Sample Long Text Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatu ","startDate":"9/19/2020","endDate":"3/9/2024","budget":88377},
       {"id":1,"name":"Divavu","startDate":"9/19/2020","endDate":"3/9/2022","budget":88377},
