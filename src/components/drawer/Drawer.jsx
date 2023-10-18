@@ -6,8 +6,8 @@ function Drawer({children, isVisible, setDrawerIsVisible}) {
       <div onClick={(e)=>e.stopPropagation()} className='bg-gray-800 dark:bg-gray-100 px-2 z-30 w-1/2 h-full flex flex-col'>
           {
           children.map(
-                (child) =>
-                    <div className='w-[150px] md:w-48 my-2'>
+                (child, index) =>
+                    <div key={index} className='w-[150px] md:w-48 my-2'>
                         {child}
                     </div>)
           }
