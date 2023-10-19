@@ -69,7 +69,7 @@ const App:React.FC = () => {
     <>
       <Drawer isVisible={drawerIsVisible} setDrawerIsVisible={setDrawerIsVisible}>
                 <h1 className='text-white dark:text-black font-bold'>Filter Campaigns</h1>
-                <form name='overlay-date-filter-form' onSubmit={(e)=>e.preventDefault()}>
+                {/* <form className='flex flex-col h-full w-full bg-red-500' name='overlay-date-filter-form' onSubmit={(e)=>e.preventDefault()}> */}
                   <div aria-label="overlay-start-date">
                     <Datepicker
                             displayFormat='MM/DD/YYYY'
@@ -96,10 +96,10 @@ const App:React.FC = () => {
                   </div>
                   {
                     <div className='h-full flex items-center'>
-                      <button type='button' className='block bg-blue-700 hover:bg-blue-900 hover:dark:bg-gray-700 hover:dark:text-white dark:bg-gray-800 w-28 h-8 rounded-2xl text-xs text-white dark:text-gray-400' onClick={()=>resetFilters()}>Reset Filters</button>
+                      <button type='button' className='block bg-blue-700 hover:bg-blue-900 hover:dark:bg-gray-700 hover:dark:text-white dark:bg-gray-800 w-28 h-8 rounded-md text-xs text-white dark:text-gray-400' onClick={()=>resetFilters()}>Reset Filters</button>
                     </div>
                   }
-                </form>
+                {/* </form> */}
       </Drawer>
       <div className='w-screen h-screen flex flex-col'>
         <NavBar/>

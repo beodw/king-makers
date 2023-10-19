@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 type Campaign = {
   id:number,
   name: string,
@@ -25,4 +27,10 @@ declare global {
   }
 }
 
-export {Campaign, CampaignsValidationObject, ChosenDate}
+interface DrawerProps {
+    children: Array<ReactElement>;
+    isVisible: boolean;
+    setDrawerIsVisible: Function;
+}
+
+export {Campaign, CampaignsValidationObject, ChosenDate, DrawerProps}

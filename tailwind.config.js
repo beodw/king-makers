@@ -5,7 +5,11 @@ module.exports = {
     "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        fadeIn: 'fadeIn 5s ease-in-out',
+      },
+    },
   },
   plugins: [],
 }
