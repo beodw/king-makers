@@ -62,32 +62,6 @@ const App:React.FC = () => {
   }
   
   const filterdCampaigns = filterCampaigns(searchValue,pageStartPointer,10,campaigns,selectedCampaignStartDate, selectedCampaignEndDate)
-  const startDatePicker = (
-    <Datepicker
-              displayFormat='MM/DD/YYYY'
-              popoverDirection="down" 
-              placeholder='Start Date'
-              useRange={false}
-              asSingle={true}
-              maxDate={selectedCampaignEndDate.length == 0 ? new Date("3000-01-01") : new Date(selectedCampaignEndDate) }
-              value={{startDate:selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate, endDate: selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate}} 
-              onChange={(chosenDate:any)=>{updateSelectedCampaignStartDate(chosenDate) }} 
-            />
-    )
-  
-
-  const endDatePicker = (
-    <Datepicker
-              displayFormat='MM/DD/YYYY'
-              popoverDirection="down"
-              placeholder='End Date' 
-              useRange={false} 
-              asSingle={true}
-              minDate={selectedCampaignStartDate.length == 0 ? new Date("1900-01-01") : new Date(selectedCampaignStartDate)}
-              value={{startDate:selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate, endDate: selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate}} 
-              onChange={(chosenDate:any)=>{updateSelectedCampaignEndDate(chosenDate) }} 
-            />
-  )
 
   const [drawerIsVisible, setDrawerIsVisible] = useState(false);
  
@@ -95,9 +69,30 @@ const App:React.FC = () => {
     <>
       <Drawer isVisible={drawerIsVisible} setDrawerIsVisible={setDrawerIsVisible}>
               <h1 className='text-white dark:text-black font-bold'>Filter Campaigns</h1>
-              {startDatePicker}
-              {endDatePicker}
-
+              <div aria-label="overlay-start-date">
+                <Datepicker
+                        displayFormat='MM/DD/YYYY'
+                        popoverDirection="down" 
+                        placeholder='Start Date'
+                        useRange={false}
+                        asSingle={true}
+                        maxDate={selectedCampaignEndDate.length == 0 ? new Date("3000-01-01") : new Date(selectedCampaignEndDate) }
+                        value={{startDate:selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate, endDate: selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate}} 
+                        onChange={(chosenDate:any)=>{updateSelectedCampaignStartDate(chosenDate) }} 
+                      />
+              </div>
+              <div aria-label="overlay-end-date">
+                <Datepicker
+                        displayFormat='MM/DD/YYYY'
+                        popoverDirection="down"
+                        placeholder='End Date' 
+                        useRange={false} 
+                        asSingle={true}
+                        minDate={selectedCampaignStartDate.length == 0 ? new Date("1900-01-01") : new Date(selectedCampaignStartDate)}
+                        value={{startDate:selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate, endDate: selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate}} 
+                        onChange={(chosenDate:any)=>{updateSelectedCampaignEndDate(chosenDate) }} 
+                      />
+              </div>
               {
                 <div className='h-full flex items-center'>
                   <button type='button' className='block bg-blue-700 hover:bg-blue-900 hover:dark:bg-gray-700 hover:dark:text-white dark:bg-gray-800 w-28 h-8 rounded-2xl text-xs text-white dark:text-gray-400' onClick={()=>resetFilters()}>Reset Filters</button>
@@ -114,16 +109,38 @@ const App:React.FC = () => {
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>
                 </div>
-                <input value={searchValue} onChange={search} type="text" id="table-search" className="block py-2 pl-[30px] sm:pl-10 text-[12px] sm:text-sm text-gray-900 border border-gray-300 rounded-md w-full sm:w-80 bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700" placeholder="Search for campaigns" />
+                <input aria-label='search-input' value={searchValue} onChange={search} type="text" id="table-search" className="block py-2 pl-[30px] sm:pl-10 text-[12px] sm:text-sm text-gray-900 border border-gray-300 rounded-md w-full sm:w-80 bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700" placeholder="Search for campaigns" />
             </div>
 
             <div className='w-48 mr-2 hidden sm:flex items-end h-full'>
-              {startDatePicker}
+              <div id="start-date">
+                <Datepicker
+                        displayFormat='MM/DD/YYYY'
+                        popoverDirection="down" 
+                        placeholder='Start Date'
+                        useRange={false}
+                        asSingle={true}
+                        maxDate={selectedCampaignEndDate.length == 0 ? new Date("3000-01-01") : new Date(selectedCampaignEndDate) }
+                        value={{startDate:selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate, endDate: selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate}} 
+                        onChange={(chosenDate:any)=>{updateSelectedCampaignStartDate(chosenDate) }} 
+                      />
+              </div>
             </div>
 
 
             <div className='w-48 mr-2 hidden sm:flex items-end h-full'>
-              {endDatePicker}
+                <div id="end-date">
+                    <Datepicker
+                            displayFormat='MM/DD/YYYY'
+                            popoverDirection="down"
+                            placeholder='End Date' 
+                            useRange={false} 
+                            asSingle={true}
+                            minDate={selectedCampaignStartDate.length == 0 ? new Date("1900-01-01") : new Date(selectedCampaignStartDate)}
+                            value={{startDate:selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate, endDate: selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate}} 
+                            onChange={(chosenDate:any)=>{updateSelectedCampaignEndDate(chosenDate) }} 
+                          />
+                </div>
             </div>
 
             <div className='sm:hidden w-1/2 flex justify-end'>
