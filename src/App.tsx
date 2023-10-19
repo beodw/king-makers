@@ -68,68 +68,21 @@ const App:React.FC = () => {
   return(
     <>
       <Drawer isVisible={drawerIsVisible} setDrawerIsVisible={setDrawerIsVisible}>
-              <h1 className='text-white dark:text-black font-bold'>Filter Campaigns</h1>
-              <div aria-label="overlay-start-date">
-                <Datepicker
-                        displayFormat='MM/DD/YYYY'
-                        popoverDirection="down" 
-                        placeholder='Start Date'
-                        useRange={false}
-                        asSingle={true}
-                        maxDate={selectedCampaignEndDate.length == 0 ? new Date("3000-01-01") : new Date(selectedCampaignEndDate) }
-                        value={{startDate:selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate, endDate: selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate}} 
-                        onChange={(chosenDate:any)=>{updateSelectedCampaignStartDate(chosenDate) }} 
-                      />
-              </div>
-              <div aria-label="overlay-end-date">
-                <Datepicker
-                        displayFormat='MM/DD/YYYY'
-                        popoverDirection="down"
-                        placeholder='End Date' 
-                        useRange={false} 
-                        asSingle={true}
-                        minDate={selectedCampaignStartDate.length == 0 ? new Date("1900-01-01") : new Date(selectedCampaignStartDate)}
-                        value={{startDate:selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate, endDate: selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate}} 
-                        onChange={(chosenDate:any)=>{updateSelectedCampaignEndDate(chosenDate) }} 
-                      />
-              </div>
-              {
-                <div className='h-full flex items-center'>
-                  <button type='button' className='block bg-blue-700 hover:bg-blue-900 hover:dark:bg-gray-700 hover:dark:text-white dark:bg-gray-800 w-28 h-8 rounded-2xl text-xs text-white dark:text-gray-400' onClick={()=>resetFilters()}>Reset Filters</button>
-                </div>
-              }
-      </Drawer>
-      <div className='w-screen h-screen flex flex-col'>
-        <NavBar/>
-        <div className="py-4 sm:px-2 flex items-center justify-start">
-            <label htmlFor="table-search" className="sr-only">Search</label>
-            <div className="relative mt-1 pl-2 sm:px-2 w-full sm:w-1/2 max-w-[350px]">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg className="ml-[5px] w-[12px] h-[12px] sm:w-4 sm:h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                    </svg>
-                </div>
-                <input aria-label='search-input' value={searchValue} onChange={search} type="text" id="table-search" className="block py-2 pl-[30px] sm:pl-10 text-[12px] sm:text-sm text-gray-900 border border-gray-300 rounded-md w-full sm:w-80 bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700" placeholder="Search for campaigns" />
-            </div>
-
-            <div className='w-48 mr-2 hidden sm:flex items-end h-full'>
-              <div id="start-date">
-                <Datepicker
-                        displayFormat='MM/DD/YYYY'
-                        popoverDirection="down" 
-                        placeholder='Start Date'
-                        useRange={false}
-                        asSingle={true}
-                        maxDate={selectedCampaignEndDate.length == 0 ? new Date("3000-01-01") : new Date(selectedCampaignEndDate) }
-                        value={{startDate:selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate, endDate: selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate}} 
-                        onChange={(chosenDate:any)=>{updateSelectedCampaignStartDate(chosenDate) }} 
-                      />
-              </div>
-            </div>
-
-
-            <div className='w-48 mr-2 hidden sm:flex items-end h-full'>
-                <div id="end-date">
+                <h1 className='text-white dark:text-black font-bold'>Filter Campaigns</h1>
+                <form name='overlay-date-filter-form' onSubmit={(e)=>e.preventDefault()}>
+                  <div aria-label="overlay-start-date">
+                    <Datepicker
+                            displayFormat='MM/DD/YYYY'
+                            popoverDirection="down" 
+                            placeholder='Start Date'
+                            useRange={false}
+                            asSingle={true}
+                            maxDate={selectedCampaignEndDate.length == 0 ? new Date("3000-01-01") : new Date(selectedCampaignEndDate) }
+                            value={{startDate:selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate, endDate: selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate}} 
+                            onChange={(chosenDate:any)=>{updateSelectedCampaignStartDate(chosenDate) }} 
+                          />
+                  </div>
+                  <div aria-label="overlay-end-date">
                     <Datepicker
                             displayFormat='MM/DD/YYYY'
                             popoverDirection="down"
@@ -140,8 +93,62 @@ const App:React.FC = () => {
                             value={{startDate:selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate, endDate: selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate}} 
                             onChange={(chosenDate:any)=>{updateSelectedCampaignEndDate(chosenDate) }} 
                           />
+                  </div>
+                  {
+                    <div className='h-full flex items-center'>
+                      <button type='button' className='block bg-blue-700 hover:bg-blue-900 hover:dark:bg-gray-700 hover:dark:text-white dark:bg-gray-800 w-28 h-8 rounded-2xl text-xs text-white dark:text-gray-400' onClick={()=>resetFilters()}>Reset Filters</button>
+                    </div>
+                  }
+                </form>
+      </Drawer>
+      <div className='w-screen h-screen flex flex-col'>
+        <NavBar/>
+        <div className="py-4 sm:px-2 flex items-center justify-start">
+            <form className='flex w-full' name='filter-table-form' onSubmit={(e)=>e.preventDefault()}>
+              <label htmlFor="table-search" className="sr-only">Search</label>
+              <div className="relative mt-1 pl-2 sm:px-2 w-full sm:w-1/2 max-w-[350px]">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <svg className="ml-[5px] w-[12px] h-[12px] sm:w-4 sm:h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                      </svg>
+                  </div>
+                  <input aria-label='search-input' value={searchValue} onChange={search} type="text" id="table-search" className="block py-2 pl-[30px] sm:pl-10 text-[12px] sm:text-sm text-gray-900 border border-gray-300 rounded-md w-full sm:w-80 bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700" placeholder="Search for campaigns" />
+              </div>
+
+              <div className='w-48 mr-2 hidden sm:flex items-end h-full'>
+                <div id="start-date">
+                  <Datepicker
+                          displayFormat='MM/DD/YYYY'
+                          popoverDirection="down" 
+                          placeholder='Start Date'
+                          useRange={false}
+                          asSingle={true}
+                          maxDate={selectedCampaignEndDate.length == 0 ? new Date("3000-01-01") : new Date(selectedCampaignEndDate) }
+                          value={{startDate:selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate, endDate: selectedCampaignStartDate.length == 0 ? null: selectedCampaignStartDate}} 
+                          onChange={(chosenDate:any)=>{updateSelectedCampaignStartDate(chosenDate) }} 
+                        />
                 </div>
-            </div>
+              </div>
+
+
+              <div className='w-48 mr-2 hidden sm:flex items-end h-full'>
+                  <div id="end-date">
+                      <Datepicker
+                              displayFormat='MM/DD/YYYY'
+                              popoverDirection="down"
+                              placeholder='End Date' 
+                              useRange={false} 
+                              asSingle={true}
+                              minDate={selectedCampaignStartDate.length == 0 ? new Date("1900-01-01") : new Date(selectedCampaignStartDate)}
+                              value={{startDate:selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate, endDate: selectedCampaignEndDate.length == 0 ? null: selectedCampaignEndDate}} 
+                              onChange={(chosenDate:any)=>{updateSelectedCampaignEndDate(chosenDate) }} 
+                            />
+                  </div>
+              </div>
+
+              <button onClick={resetFilters} className='hidden dark:bg-gray-800 rounded-lg sm:flex items-center justify-center text-[10px] dark:text-gray-400 bg-blue-700 text-white hover:bg-blue-800 dark:hover:bg-gray-700 dark:hover:text-white px-4'>Reset</button>
+
+            </form>
 
             <div className='sm:hidden w-1/2 flex justify-end'>
               <button onClick={() => setDrawerIsVisible(!drawerIsVisible)} className='flex'>
